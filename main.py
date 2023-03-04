@@ -109,7 +109,7 @@ def get_notebook_data(driver, url: str) -> dict[str, str | int]:
     notebook["cpu"] = f"{cpu_frequency} "
     amount_of_ram = find_if_on_page(r'Объем оперативной памяти', soup)
     notebook["RAM"] = f"{amount_of_ram} "
-    total_ssd_size = find_if_on_page(r'Общий объем твердотельных накопителей \(SSD\)',
+    total_ssd_size = find_if_on_page(r'(SSD\)',
                                      soup)
     notebook["SSD"] = f"{total_ssd_size}"
 
@@ -155,12 +155,12 @@ def main():
     with Chrome(service=Service(ChromeDriverManager().install())) as driver:
         driver.maximize_window()
 
-        print("Получение списка всех ссылок на игровые ноутбуки:")
+        print("Ссылки:")
         urls = get_all_notebook_urls(driver)
         with open('urls.txt', 'w') as file:
             file.write('\n'.join(urls))
 
-        print("Получение характеристик всех игровых ноутбуков:")
+        print("Параметры:")
 
         with open('urls.txt', 'r') as file:
             urls = list(map(lambda line: line.strip(), file.readlines()))
